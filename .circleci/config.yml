@@ -27,7 +27,10 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
               docker tag replaceme "replaceme:${CIRCLE_SHA1}"
-              docker push "replaceme:${CIRCLE_SHA1}"
+              IMG_TAG=$(date +%Y%m%d-%H%M%S)
+              docker push "replaceme:${IMG_TAG}"
+            else
+              echo "Branch is \"${CIRCLE_BRANCH}\" hence not pushing to dockerhub"
             fi
 
 
