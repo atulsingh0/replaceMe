@@ -1,20 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: name-XXXXXXZZZZZZZZZZZZZZZZZZ
+  name: NAME-XXXXXXZZZZZZZZZZZZZZZZZZ
   labels:
-    app: name-XXXXXXZZZZZZZZZZZZZZZZZZ
-    layer: execution
+    app: NAME-XXXXXXZZZZZZZZZZZZZZZZZZ
 data:
-  nomad.hcl: |
+  app.hcl: |
     log_level            = "INFO"
     leave_on_interrupt   = false
     leave_on_terminate   = true   # Leave cluster on SIGTERM
     disable_update_check = true
 
-    data_dir  = "/var/lib/age/"
+    data_dir  = "/var/lib/JOB/"
  
     advertise {
-      less = "nomad-XXXXXXZZZZZZZZZZZZZZZZZZ:4646"
-      123456  = "{{ .Values.global.domainName }}:4647"
+      less = "NAME-XXXXXXZZZZZZZZZZZZZZZZZZ:4646"
     }
