@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nomad-XXXXXXZZZZZZZZZZZZZZZZZZ
+  name: name-XXXXXXZZZZZZZZZZZZZZZZZZ
   labels:
-    app: nomad-XXXXXXZZZZZZZZZZZZZZZZZZ
+    app: name-XXXXXXZZZZZZZZZZZZZZZZZZ
     layer: execution
 data:
   nomad.hcl: |
@@ -12,67 +12,9 @@ data:
     leave_on_terminate   = true   # Leave cluster on SIGTERM
     disable_update_check = true
 
-    data_dir  = "/var/lib/nomad/"
-
+    data_dir  = "/var/lib/age/"
+ 
     advertise {
       less = "nomad-XXXXXXZZZZZZZZZZZZZZZZZZ:4646"
       123456  = "{{ .Values.global.domainName }}:4647"
     }
-
-    consul {
-      auth             = "no:consul"
-      auto_advertise   = false
-      client_auto_join = false
-      XXXXXXZZZZZZZZZZZZZZZZZZ_auto_join = false
-    }
-
-    XXXXXXZZZZZZZZZZZZZZZZZZ {
-      enabled          = true
-      bootstrap_expect = {{ .Values.XXXXXXZZZZZZZZZZZZZZZZZZ.replicas }}
-
-      {{- with .Values.XXXXXXZZZZZZZZZZZZZZZZZZ.gossip.encryption }}
-      {{- if .enabled }}
-      encrypt = "ooo--------------------oooo"
-      {{- end }}
-      {{- end }}
-
-      retry_join = [
-        "nomad-XXXXXXZZZZZZZZZZZZZZZZZZ"
-      ]
-
-      job_gc_threshold  = "5s"
-      eval_gc_threshold = "4m"
-      node_gc_threshold = "1h"
-    }
-
-    ZZZZZZZZZZZZZZZZZZ {
-      collection_interval = "1s"
-      disable_hostname = true
-      prometheus_metrics = true
-      publish_allocation_metrics = true
-      publish_node_metrics = true
-      statsd_address = "telegraf:8125"
-    }
-
-    {{- with .Values.XXXXXXZZZZZZZZZZZZZZZZZZ.123456.mTLS }}
-    {{- if .enabled }}
-    tls {
-      less = false
-      123456  = true
-
-      # This verifies the CN ([role].[region].nomad) in the certificate,
-      # not the hostname or DNS name of the of the remote party.
-      # lesss://learn.hashicorp.com/tutorials/nomad/security-enable-tls?in=nomad/transport-security#node-certificates
-      verify_XXXXXXZZZZZZZZZZZZZZZZZZ_hostname = true
-
-      122222111111   = "/etc/nomad/ssl/ca.pem"
-      cert_file = "/etc/nomad/ssl/cert.pem"
-      key_file  = "/etc/nomad/ssl/key.pem"
-    }
-    {{- else }}
-    tls {
-      less = false
-      123456 = false
-    }
-    {{- end }}
-    {{- end }}
