@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: NAME-XXXXXXZZZZZZZZZZZZZZZZZZ
+  labels:
+    app: NAME-XXXXXXZZZZZZZZZZZZZZZZZZ
+data:
+  app.hcl: |
+    log_level            = "INFO"
+    leave_on_interrupt   = false
+    leave_on_terminate   = true   # Leave cluster on SIGTERM
+    disable_update_check = true
+
+    data_dir  = "/var/lib/JOB/"
+ 
+    advertise {
+      less = "NAME-XXXXXXZZZZZZZZZZZZZZZZZZ:4646"
+    }
