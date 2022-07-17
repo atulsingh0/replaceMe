@@ -24,21 +24,24 @@ jobs:
       - run:
           name: Tagging & pushing to docker
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-              docker tag replaceme "replaceme:${CIRCLE_SHA1}"
+            # if [ "${CIRCLE_BRANCH}" == "main" ]; then
+              docker login --username ${DOCKER_USER} --password ${DOCKER_PASS}
               IMG_TAG=$(date +%Y%m%d-%H%M%S)
-              docker push "replaceme:${IMG_TAG}"
-            else
-              echo "Branch is \"${CIRCLE_BRANCH}\" hence not pushing to dockerhub"
-            fi
+              docker tag replaceme:latest "${DOCKER_USER}/replaceme:${IMG_TAG}"
+              docker push "${DOCKER_USER}/replaceme:${IMG_TAG}"
+            # else
+              # echo "Branch is \"${CIRCLE_BRANCH}\" hence not pushing to dockerhub"
+            # fi
 
 
 workflows:
   base-workflow:
     jobs:
-      - build:
-         name: Running Test and Build
+      - build
       - docker-build:
-         name: Build and Push Docker Image
-
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+          - build
