@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: 'cimg/go:1.18.4'
+    steps:
+      - checkout
+      - run:
+          name: Check GO version
+          command: go version 
+      - run:
+          name: Running build 
+          command: cd src && go build && ls -l replaceMe
+
+workflows:
+  base-workflow:
+    jobs:
+      - build:
+         name: Running Test and Build
+
