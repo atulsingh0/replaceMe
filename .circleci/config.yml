@@ -37,8 +37,11 @@ jobs:
 workflows:
   base-workflow:
     jobs:
-      - build:
-         name: Running Test and Build
+      - build
       - docker-build:
-         name: Build and Push Docker Image
-
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+          - build
