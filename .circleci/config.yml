@@ -13,7 +13,6 @@ jobs:
           name: Running build 
           command: cd src && go build && ls -l replaceMe
   docker-build:
-    working_directory: /src
     docker:
       - image: docker:17.05.0-ce-git
     steps:
@@ -30,6 +29,7 @@ jobs:
               docker tag replaceMe "replaceMe:${CIRCLE_SHA1}"
               docker push "replaceMe:${CIRCLE_SHA1}"
             fi
+
 
 workflows:
   base-workflow:
