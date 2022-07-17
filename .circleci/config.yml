@@ -11,7 +11,7 @@ jobs:
           command: go version 
       - run:
           name: Running build 
-          command: cd src && go build && ls -l replaceMe
+          command: cd src && go build && ls -l replaceme
   docker-build:
     docker:
       - image: docker:17.05.0-ce-git
@@ -20,14 +20,14 @@ jobs:
       - setup_remote_docker
       - run:
           name: building image
-          command: docker build -t replaceMe .
-      - push-to-docker:
+          command: docker build -t replaceme .
+      - run:
           name: Tagging & pushing to docker
           command: |
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-              docker tag replaceMe "replaceMe:${CIRCLE_SHA1}"
-              docker push "replaceMe:${CIRCLE_SHA1}"
+              docker tag replaceme "replaceme:${CIRCLE_SHA1}"
+              docker push "replaceme:${CIRCLE_SHA1}"
             fi
 
 
@@ -36,4 +36,6 @@ workflows:
     jobs:
       - build:
          name: Running Test and Build
+      - docker-build:
+         name: Build and Push Docker Image
 

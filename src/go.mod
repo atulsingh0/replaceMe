@@ -1,3 +1,3 @@
-module github.com/atulsingh0/replaceMe
+module github.com/atulsingh0/replaceme
 
 go 1.16
