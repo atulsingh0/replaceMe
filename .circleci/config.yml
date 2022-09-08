@@ -12,21 +12,7 @@ jobs:
       - run:
           name: Running build
           command: go build && ls -l replaceme
-      - setup_remote_docker
-      - run:
-          name: building image
-          command: docker build -t replaceme .
-      - run:
-          name: Tagging & pushing to docker
-          command: |
-            # if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              docker login --username ${DOCKER_USER} --password ${DOCKER_PASS}
-              IMG_TAG=$(date +%Y%m%d-%H%M%S)
-              docker tag replaceme:latest "${DOCKER_USER}/replaceme:${IMG_TAG}"
-              docker push "${DOCKER_USER}/replaceme:${IMG_TAG}"
-            # else
-              # echo "Branch is \"${CIRCLE_BRANCH}\" hence not pushing to dockerhub"
-            # fi
+
   docker-build:
     docker:
       - image: docker:17.05.0-ce-git
@@ -53,10 +39,10 @@ workflows:
   base-workflow:
     jobs:
       - build
-      # - docker-build:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #     requires:
-      #     - build
+      - docker-build:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+          - build
