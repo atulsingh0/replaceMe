@@ -21,9 +21,23 @@ func flagUsage() {
 
 func outputFilechk(inp string, out string) (string, string) {
 	if out == "" {
-		out = inp
-		inp = "out-" + inp
-		os.Rename(out, inp)
+		out = inp + ".bak"
+
+		bytesRead, err := ioutil.ReadFile(inp)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = ioutil.WriteFile(out, bytesRead, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		inp, out = out, inp
+		fmt.Printf("Processed file: %v\n", out)
+		fmt.Printf("Backup input file is: %v\n", inp)
+	} else {
+		fmt.Printf("Input file: %v\n", inp)
+		fmt.Printf("Processed file is: %v\n", out)
 	}
 	return inp, out
 }
@@ -56,22 +70,14 @@ func main() {
 
 	flag.Parse()
 
-	if inputFile == "" && strMapToReplace == "" {
-		flagUsage()
-		log.Fatal("-i and -m flags are required.\n")
-		os.Exit(1)
-	} else if inputFile == "" {
+	if inputFile == "" {
 		flag.Usage()
 		log.Fatal("-i flag is required.\n")
-		os.Exit(1)
-	} else if strMapToReplace == "" {
-		flag.Usage()
-		log.Fatal("-m flag is required.\n")
 		os.Exit(1)
 	}
 
 	inp, out := outputFilechk(inputFile, outputFile)
-	fmt.Println(inp, out)
+
 	// Reading file
 	data, err := ioutil.ReadFile(inp)
 	if err != nil {
