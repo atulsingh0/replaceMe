@@ -42,6 +42,10 @@ func outputFilechk(inp string, out string) (string, string) {
 	return inp, out
 }
 
+func replace(data []byte, key string, val string) []byte {
+	return []byte(strings.Replace(string(data), key, val, -1))
+}
+
 func replaceData(data []byte, strMapToReplace string) []byte {
 
 	var keyMap map[string]interface{}
@@ -50,7 +54,24 @@ func replaceData(data []byte, strMapToReplace string) []byte {
 
 	for key, val := range keyMap {
 		v := fmt.Sprintf("%v", val)
-		out_data := []byte(strings.Replace(string(data), key, v, -1))
+		out_data := replace(data, key, v)
+		data = out_data
+	}
+	return data
+}
+
+func replaceDataFromEnv(data []byte) []byte {
+
+	var out_data []byte
+	// getting Env var list
+	for _, val := range os.Environ() {
+		sList := strings.Split(val, "=")
+		k := sList[0]
+		v := sList[1]
+		// fmt.Println(k, v)
+		if !strings.HasPrefix(k, "_") {
+			out_data = replace(data, k, v)
+		}
 		data = out_data
 	}
 	return data
@@ -84,7 +105,9 @@ func main() {
 		log.Fatal("Input file: ", err)
 		return
 	} else {
+		// Replacing the DATA based on strMapToReplace MAP
 		out_data := replaceData(data, strMapToReplace)
+		out_data = replaceDataFromEnv(out_data)
 		ioutil.WriteFile(out, out_data, 0600)
 	}
 }
