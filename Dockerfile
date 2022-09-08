@@ -1,6 +1,6 @@
 FROM golang:1.19 as build
 WORKDIR /build
-COPY replaceme.go .
+COPY cmd/ .
 RUN go get
 RUN CGO_ENABLED=0 go build
 
