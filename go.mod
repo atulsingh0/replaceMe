@@ -1,3 +1,3 @@
 module github.com/atulsingh0/replaceme
 
-go 1.16
+go 1.19
