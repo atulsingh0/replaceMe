@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/atulsingh0/reaplaceme/lib"
+	"replaceme/lib"
 )
 
 func flagUsage() {
@@ -39,7 +39,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	inp, out := outputFilechk(inputFile, outputFile)
+	inp, out := lib.OutputFileChk(inputFile, outputFile)
 
 	// Reading file
 	data, err := ioutil.ReadFile(inp)
@@ -48,8 +48,8 @@ func main() {
 		return
 	} else {
 		// Replacing the DATA based on strMapToReplace MAP
-		out_data := replaceData(data, strMapToReplace)
-		out_data = replaceDataFromEnv(out_data)
+		out_data := lib.ReplaceData(data, strMapToReplace)
+		out_data = lib.ReplaceDataFromEnv(out_data)
 		ioutil.WriteFile(out, out_data, 0600)
 	}
 }

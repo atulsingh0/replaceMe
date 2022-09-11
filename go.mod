@@ -1,3 +1,3 @@
-module github.com/atulsingh0/replaceme/src
+module replaceme
 
 go 1.19
