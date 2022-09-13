@@ -11,7 +11,7 @@ jobs:
           command: go version
       - run:
           name: Running build
-          command: cd cmd && go build -o replaceme gs&& ls -l replaceme
+          command: cd cmd && go build -o replaceme && ls -l replaceme
 
   docker-build:
     docker:
