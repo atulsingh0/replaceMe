@@ -39,17 +39,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	inp, out := lib.OutputFileChk(inputFile, outputFile)
-
 	// Reading file
-	data, err := ioutil.ReadFile(inp)
+	data, err := ioutil.ReadFile(inputFile)
+
 	if err != nil {
 		log.Fatal("Input file: ", err)
 		return
-	} else {
-		// Replacing the DATA based on strMapToReplace MAP
-		out_data := lib.ReplaceData(data, strMapToReplace)
-		out_data = lib.ReplaceDataFromEnv(out_data)
-		ioutil.WriteFile(out, out_data, 0600)
+	} else if outputFile == "" {
+		outputFile = inputFile + ".bak"
+		ioutil.WriteFile(outputFile, data, 0644)
+		outputFile, inputFile = inputFile, outputFile
 	}
+
+	// Replacing the DATA based on strMapToReplace MAP
+	out_data := lib.ReplaceData(data, strMapToReplace)
+	out_data = lib.ReplaceDataFromEnv(out_data)
+	ioutil.WriteFile(outputFile, out_data, 0600)
+
 }
