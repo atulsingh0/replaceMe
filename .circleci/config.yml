@@ -11,7 +11,7 @@ jobs:
           command: go version
       - run:
           name: Running build
-          command: cd cmd && go build && ls -l replaceme
+          command: cd cmd && go build -o replaceme gs&& ls -l replaceme
 
   docker-build:
     docker:
@@ -35,14 +35,14 @@ jobs:
             # fi
 
 
-# workflows:
-#   base-workflow:
-#     jobs:
-#       - build
-#       - docker-build:
-#           filters:
-#             branches:
-#               only:
-#                 - main
-#           requires:
-#           - build
+workflows:
+  base-workflow:
+    jobs:
+      - build
+      # - docker-build:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #     requires:
+      #     - build
