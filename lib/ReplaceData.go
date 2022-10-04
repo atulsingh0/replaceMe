@@ -25,6 +25,7 @@ func ReplaceData(data []byte, strMapToReplace string) []byte {
 		v := sList[1]
 		// fmt.Println(k, v)
 		if !strings.HasPrefix(k, "_") {
+			// TODO: Use os.Expand(s, os.Getenv) to replace all the env natively
 			data = []byte(strings.Replace(string(data), k, v, -1))
 		}
 	}
