@@ -18,7 +18,6 @@ func ReplaceData(data []byte, strMapToReplace string) []byte {
 		os.Setenv(key, fmt.Sprintf("%v", val))
 	}
 
-	var out_data []byte
 	// getting Env var list
 	for _, val := range os.Environ() {
 		sList := strings.Split(val, "=")
@@ -26,13 +25,8 @@ func ReplaceData(data []byte, strMapToReplace string) []byte {
 		v := sList[1]
 		// fmt.Println(k, v)
 		if !strings.HasPrefix(k, "_") {
-			out_data = Replace(data, k, v)
+			data = []byte(strings.Replace(string(data), k, v, -1))
 		}
-		data = out_data
 	}
 	return data
-}
-
-func Replace(data []byte, key string, val string) []byte {
-	return []byte(strings.Replace(string(data), key, val, -1))
 }
