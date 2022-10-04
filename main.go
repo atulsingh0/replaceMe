@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"replaceme/lib"
+	repme "github.com/atulsingh0/replaceme/lib"
 )
 
 func flagUsage() {
@@ -52,8 +52,7 @@ func main() {
 	}
 
 	// Replacing the DATA based on strMapToReplace MAP
-	out_data := lib.ReplaceData(data, strMapToReplace)
-	out_data = lib.ReplaceDataFromEnv(out_data)
+	out_data := repme.ReplaceData(data, strMapToReplace)
 	ioutil.WriteFile(outputFile, out_data, 0600)
 
 }

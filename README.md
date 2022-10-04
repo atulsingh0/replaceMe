@@ -12,6 +12,7 @@ Usage of ./replaceme:
   -i string   Input file path
   -o string   Output file path [optional]
   -m map      key-value map where key will be replace by value in inputfile [optional]
+              if key will overwrite the env var if having the same name
 ```
 
 ```bash
