@@ -19,19 +19,28 @@ func flagUsage() {
 	fmt.Println("i.e - ./replaceMe -i input.txt -o output.txt -m '{\"name\" : \"johndoe\", \"age\": 20}'\n")
 }
 
+var GitCommit string
+
 func main() {
 
 	var (
 		inputFile       string
 		strMapToReplace string
 		outputFile      string
+		version         bool
 	)
 
-	flag.StringVar(&inputFile, `i`, "", "-i <Input_file_path>")
-	flag.StringVar(&strMapToReplace, `m`, "", "-m <key-value-map>")
-	flag.StringVar(&outputFile, `o`, "", "Output file path")
+	flag.StringVar(&inputFile, "i", "", "-i <Input_file_path>")
+	flag.StringVar(&strMapToReplace, "m", "", "-m <key-value-map>")
+	flag.StringVar(&outputFile, "o", "", "-o <Output file path>")
+	flag.BoolVar(&version, "version", false, "Print binary Version")
 
 	flag.Parse()
+
+	if version {
+		fmt.Printf("Version: %s\n", GitCommit)
+		os.Exit(0)
+	}
 
 	if inputFile == "" {
 		flag.Usage()

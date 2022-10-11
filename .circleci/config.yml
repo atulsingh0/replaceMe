@@ -11,7 +11,11 @@ jobs:
           command: go version
       - run:
           name: Running build
-          command: cd cmd && go build -o replaceme && ls -l replaceme
+          command: -|
+            cd cmd
+            export GIT_COMMIT=$(git rev-list -1 HEAD)
+            go build -ldflags "-X main.GitCommit=$GIT_COMMIT" -o replaceme
+            ls -l replaceme
 
   docker-build:
     docker:
