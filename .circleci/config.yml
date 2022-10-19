@@ -12,8 +12,8 @@ jobs:
       - run:
           name: Running build
           command: |
-            export GIT_COMMIT=$(git rev-list -1 HEAD)
-            go build -ldflags "-X main.GitCommit=$GIT_COMMIT" -o replaceme
+            echo "Git commit SHA: $CIRCLE_SHA1"
+            GOOS=linux GOARCH=amd64 go build -ldflags "-X main.GitCommit=$CIRCLE_SHA1" -o replaceme
             ls -l replaceme
 
   docker-build:
